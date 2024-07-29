@@ -1,50 +1,54 @@
-function randint(max) {
-  return Math.floor(Math.random () * max + 1);
+const MIN = {
+    vertical: 4
 }
- 
- function generarArrayBidimensional() {
- function generarArray() {
-      return [[randint(10)], [randint(10)], [randint(10)],]
-   }
- 
-   var array = [];
-   for (var i = 3; i < 10; i++) {
-     array.push(generarArray());
-   }
-   return array;
- }
- function mostrarArrayBidimensional(arrayBidimensional) {
-   
-   function mostrarArray(array) {
-     array.forEach(function (elemento) {
-       var formatedElemento = (" " + elemento).slice(-2);
-       process.stdout.write(`| ${formatedElemento} `);
-     });
-     console.log("|");
+
+const MAX = {
+    horizontal: 3,
+    vertical: 6,
+    numero:10
+}
+
+function randInt(max) {
+    return Math.floor(Math.random() * max) + 1;
+}
+
+function generarArrayBidimensional() {
+    function generarArray() {
+        //return [randInt(10), randInt(10), randInt(10)];
+        var linea = []
+        for (var i = 1; i <= MAX.horizontal; i++) {
+            linea.push(randInt(MAX.numero));
+        }
+        return linea
     }
 
-   function mostrarLinea(numElementos) {
-      const lineLength = (numElementos * 4) + 1; // 4 characters per element (| xx ) + 1 for the final |
-      for (var i = 0; i < lineLength; i++) {
-        process.stdout.write("-");
-      }
-      console.log();
-    }   
+    var array = [];
+    for (var i = 0; i < MIN.vertical + randInt(MAX.vertical); i++) {
+        array.push(generarArray());
+    }
+    return array;
+}
 
-    const numElementos = arrayBidimensional[0].length;
-    mostrarLinea(numElementos);
+// SOLO PARA linea de comandos
+function mostrarArrayBidimensional(arrayBidimensional) {
     arrayBidimensional.forEach(function (array) {
-      mostrarArray(array);
-      mostrarLinea(numElementos);
+        array.forEach(function(elemento) {
+            var formatedElemento = (" " + elemento).slice(-2);
+            process.stdout.write(`| ${formatedElemento} `);
+        });
+        console.log("|");
     });
-  }
-  
-  mostrarArrayBidimensional(generarArrayBidimensional());
+};
 
+// SOLO PARA WEB
+/*
+    var table = document.getElementById("table");
+    arrayBidimensional.forEach(function (array) {
+        var row = "<tr>" + mostrarArray(array) + "</tr>";
+        table.innerHTML += row;
+    });
+*/
 
-
-
-
-
-
-
+arrayBidimensional = generarArrayBidimensional()
+console.log(arrayBidimensional)
+mostrarArrayBidimensional(arrayBidimensional);
